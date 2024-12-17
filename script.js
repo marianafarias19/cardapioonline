@@ -9,43 +9,34 @@ const cartCounter  =document.getElementById("cart-count")
 const addressInput = document.getElementById("address")
 const addressWarn = document.getElementById("address-warn")
 
-let cart = []; // array
-
-// abrir o modal do carrinho
+let cart = [];
 cartBtn.addEventListener("click", function(){
     updateCartModal();
     cartModal.style.display = "flex"
 })
 
-// fechar o modal qnd clicar fora
 cartModal.addEventListener("click",function(event){
     if(event.target === cartModal){
         cartModal.style.display = "none"
     }
 })
 
-
-// fechar pelo botao fechar
 closeModalBtn.addEventListener("click", function(){
     cartModal.style.display = "none"
 })
 
 menu.addEventListener("click", function(event){
-   // console.log(event.target) - PARA PEGAR O TARGET DE QUALQUER ITEM
    let parentButton = event.target.closest(".add-to-cart-btn")
    
    if(parentButton){
     const name = parentButton.getAttribute("data-name")
     const price = parseFloat(parentButton.getAttribute("data-price"))
 
-    // adicionar no carrinho
-
     addToCart(name, price)
 
 
    }
 })
-//atualiza o carrinho
 function updateCartModal(){
     cartItemsContainer.innerHTML = "";
     let total = 0;
@@ -81,13 +72,10 @@ function updateCartModal(){
     cartCounter.innerHTML = cart.length;
 }
 
-
-// função p adicionar no carrrinho
 function addToCart(name, price){
     const existingItem = cart.find(item => item.name === name)
 
     if(existingItem){
-        // se o item existe muda apenas a quantidade (+1)
         existingItem.quantity += 1;
     }else{
         cart.push({
@@ -101,10 +89,6 @@ function addToCart(name, price){
 
 }
 
-// atualiza o carrinho
-
-
-// função para remover item do carrinho
 cartItemsContainer.addEventListener("click", function (event){
     if(event.target.classList.contains("remove-from-cart-btn")){
         const name = event.target.getAttribute("data-name")
@@ -134,7 +118,6 @@ addressInput.addEventListener("input", function(event){
     }
 })
 
-//finalizar pedido
 checkoutBtn.addEventListener("click", function(){
     const isOpen = checkRestaurantOpen();
     if(!isOpen){
@@ -142,9 +125,9 @@ checkoutBtn.addEventListener("click", function(){
             text: "Ops o restaurante está fechado!",
             duration: 3000,
             close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
             style: {
             background: "#ef4444",
      },
@@ -171,12 +154,10 @@ checkoutBtn.addEventListener("click", function(){
     updateCartModal();
 })
     
-
-//verificar a hora e manipular o card horario
 function checkRestaurantOpen(){
     const data = new Date();
     const hora = data.getHours();
-    return hora >= 18 && hora < 22; //true = restaurante esta aberto
+    return hora >= 18 && hora < 22; 
 
 }
 
